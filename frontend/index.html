@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Docker App</title>
+</head>
+<body>
+  <h1>Docker Full Stack App</h1>
+  <input id="name" placeholder="Enter name" />
+  <button onclick="addUser()">Add User</button>
+
+  <ul id="list"></ul>
+
+  <script>
+    async function fetchUsers() {
+      const res = await fetch('http://localhost:5000/api');
+      const data = await res.json();
+
+      document.getElementById('list').innerHTML =
+        data.map(u => `<li>${u.name}</li>`).join('');
+    }
+
+    async function addUser() {
+      const name = document.getElementById('name').value;
+      await fetch('http://localhost:5000/api', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      fetchUsers();
+    }
+
+      fetchUsers();
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+
+  backend:
+    build: ./backend
+    container_name: backend_app
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env                 # ✅ NEW
+    depends_on:
+      - mongo
+    networks:
+      - app_network          # ✅ NEW
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_app
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network          # ✅ NEW
+
+  mongo:
+    image: mongo
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db  # ✅ NEW (IMPORTANT)
+    networks:
+      - app_network          # ✅ NEW
+
+# ✅ NEW (volume definition)
+volumes:
+  mongo_data:
+
+# ✅ NEW (network definition)
+networks:
+  app_network:
