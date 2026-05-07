@@ -1,4 +1,4 @@
-require('dotenv').config();   // ✅ NEW
+require('dotenv').config();   // NEW
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ CHANGED (no hardcoding)
+// CHANGED (no hardcoding)
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
@@ -28,6 +28,6 @@ app.post('/api', async (req, res) => {
   res.send('User added');
 });
 
-// ✅ Use env port
+// Use env port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

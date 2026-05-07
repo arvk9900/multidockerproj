@@ -8,11 +8,11 @@ services:
     ports:
       - "5000:5000"
     env_file:
-      - .env                 # ✅ NEW
+      - .env                 # NEW
     depends_on:
       - mongo
     networks:
-      - app_network          # ✅ NEW
+      - app_network          # NEW
 
   frontend:
     build: ./frontend
@@ -22,7 +22,7 @@ services:
     depends_on:
       - backend
     networks:
-      - app_network          # ✅ NEW
+      - app_network          # NEW
 
   mongo:
     image: mongo
@@ -30,14 +30,14 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db  # ✅ NEW (IMPORTANT)
+      - mongo_data:/data/db  # NEW (IMPORTANT)
     networks:
-      - app_network          # ✅ NEW
+      - app_network          # NEW
 
-# ✅ NEW (volume definition)
+# NEW (volume definition)
 volumes:
   mongo_data:
 
-# ✅ NEW (network definition)
+# NEW (network definition)
 networks:
   app_network:
