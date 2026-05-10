@@ -12,7 +12,7 @@
 
   <script>
     async function fetchUsers() {
-      const res = await fetch('http://localhost:5000/api');
+      const res = await fetch("/api/users");
       const data = await res.json();
 
       document.getElementById('list').innerHTML =
@@ -21,7 +21,7 @@
 
     async function addUser() {
       const name = document.getElementById('name').value;
-      await fetch('http://localhost:5000/api', {
+      await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name })
