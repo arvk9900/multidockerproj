@@ -5,39 +5,73 @@ services:
   backend:
     build: ./backend
     container_name: backend_app
-    ports:
-      - "5000:5000"
+
+    # REMOVE PUBLIC PORT
+    # Backend now internal only
+
     env_file:
-      - .env                 # NEW
+      - .env
+
     depends_on:
       - mongo
+
     networks:
-      - app_network          # NEW
+      - app_network
+
 
   frontend:
     build: ./frontend
     container_name: frontend_app
-    ports:
-      - "3000:80"
+
+    # REMOVE PUBLIC PORT
+    # Frontend accessed through Nginx
+
     depends_on:
       - backend
+
     networks:
-      - app_network          # NEW
+      - app_network
+
 
   mongo:
     image: mongo
     container_name: mongo_db
+
     ports:
       - "27017:27017"
-    volumes:
-      - mongo_data:/data/db  # NEW (IMPORTANT)
-    networks:
-      - app_network          # NEW
 
-# NEW (volume definition)
+    volumes:
+      - mongo_data:/data/db
+
+    networks:
+      - app_network
+
+
+  # =========================
+  # NEW NGINX SERVICE
+  # =========================
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    depends_on:
+      - frontend
+      - backend
+
+    networks:
+      - app_network
+
+
 volumes:
   mongo_data:
 
-# NEW (network definition)
+
 networks:
   app_network:
