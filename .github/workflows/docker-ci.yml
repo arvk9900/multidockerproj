@@ -1,4 +1,4 @@
-name: Docker CI Pipeline
+name: Hybrid CI/CD Pipeline
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  build:
+  deploy:
 
     runs-on: self-hosted
 
@@ -16,7 +16,24 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Deploy Containers
+      - name: Build Containers
         run: |
           cd /multidockerproj
-          docker-compose up -d --build
+          docker-compose build
+
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@master
+
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          script: |
+
+            cd ~/multidockerproj
+
+            git pull
+
+            docker-compose up -d --build
+```
