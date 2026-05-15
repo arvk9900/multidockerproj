@@ -18,6 +18,11 @@ services:
     networks:
       - app_network
 
+    restart: 
+            always
+  
+
+
 
   frontend:
     build: ./frontend
@@ -31,6 +36,9 @@ services:
 
     networks:
       - app_network
+    
+    restart: 
+            always
 
 
   mongo:
@@ -45,6 +53,9 @@ services:
 
     networks:
       - app_network
+
+    restart:
+            always
 
 
   # =========================
@@ -67,6 +78,9 @@ services:
 
     networks:
       - app_network
+
+    restart:
+            always
 
 
 volumes:
