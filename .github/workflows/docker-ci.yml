@@ -19,7 +19,7 @@ jobs:
       - name: Build Containers
         run: |
           cd /multidockerproj
-          docker compose build
+          docker-compose build
 
       - name: Deploy to AWS EC2
         uses: appleboy/ssh-action@master
